@@ -1,5 +1,3 @@
-
-
 ################################################
 # Directories
 #
@@ -7,21 +5,23 @@
 # our project:
 ################################################
 
-node_modules
-services
-nginx/ssl/**
-!nginx/ssl/.gitkeep
-developer
-config/local.js
-docker-compose.*
-!/examples/*
+config/*
+!config/example.local.js
 
 # Ignore data stored in our shared /data directory
 data/**
 !data/tmp/.gitkeep
 
+developer/ui/web/assets/**
+!developer/ui/web/assets/.gitkeep
+
 mysql/data/**
 !mysql/data/.gitkeep
+
+nginx/ssl/**
+!nginx/ssl/.gitkeep
+
+node_modules
 
 redis/data/**
 !redis/data/.gitkeep
@@ -31,10 +31,15 @@ logs/*
 !/logs/appbuilder/
 !/logs/fail2ban/
 
+test/e2e/cypress/downloads/**
+!test/e2e/cypress/downloads/.gitkeep
 /test/e2e/cypress/e2e/**/*
 !/test/e2e/cypress/e2e/*.js
 !/test/e2e/cypress/e2e/plugins/
 !/test/e2e/cypress/e2e/test_import/
+test/e2e/cypress/screenshots/**
+!test/e2e/cypress/screenshots/.gitkeep
+test/setup/reset-user.sql
 
 ################################################
 # Miscellaneous
@@ -59,7 +64,3 @@ lib-cov
 *.log
 *.out
 *.pid
-
-test/setup/reset-user.sql
-ab_system_monitor.js
-.env
