@@ -1,6 +1,6 @@
 {
    "services": {
-      "api_sails": "2.5.3",
+      "api_sails": "2.5.6",
       "appbuilder": "1.3.30_p11012",
       "db": "1.0.0",
       "custom_reports": "1.0.176_p11012",
