@@ -3,7 +3,7 @@
       "api_sails": "2.5.7",
       "appbuilder": "1.3.35",
       "db": "1.0.0",
-      "custom_reports": "1.0.176_p11012",
+      "custom_reports": "1.0.181",
       "definition_manager": "1.3.31",
       "file_processor": "1.1.116",
       "log_manager": "1.1.9",
