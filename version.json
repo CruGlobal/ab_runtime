@@ -1,7 +1,7 @@
 {
    "services": {
       "api_sails": "2.5.7",
-      "appbuilder": "1.3.30_p11012",
+      "appbuilder": "1.3.35",
       "db": "1.0.0",
       "custom_reports": "1.0.176_p11012",
       "definition_manager": "1.3.27_p11100",
