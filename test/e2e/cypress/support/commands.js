@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -177,4 +180,39 @@ Cypress.Commands.add("TestLog", (log) => {
 Cypress.Commands.add("VersionCheck", () => {
    // have our Services report back their current versions.
    cy.request("GET", "/versioncheck", { tenant: Cypress.env("TENANT") });
+});
+
+// Cypress.Commands.add("ImportAllDefs", (defsDir = "test_setup/defs") => {
+//    cy.AuthLogin(cy);
+
+//    cy.log(`Importing defs from: ${defsDir}`);
+//    cy.task("listJsonDefs", defsDir).then((files) => {
+//       cy.log(`Importing ${files.length} defs from ${defsDir}`);
+//       cy.log(`Importing ${files.length} defs from ${defsDir}`);
+//       files.forEach((file) => {
+//          cy.log(`Importing: ${file}`);
+//          cy.request("POST", "/test/import", {
+//             file,
+//          });
+//          // cy.wait(1000); // wait a second between imports
+//       });
+//    });
+// });
+Cypress.Commands.add("ImportAllDefs", (folder, loc, fail = true) => {
+   const defsDir = `${folder}/test_setup/defs`;
+
+   cy.AuthLogin(cy);
+
+   cy.log(`Importing defs from: ${defsDir}`);
+   cy.task("listJsonDefs", defsDir).then((files) => {
+      cy.log(`Found ${files.length} defs in ${defsDir}`);
+
+      files.forEach((file) => {
+         let fullPath = path.join(defsDir, file);
+         cy.log(`Importing: ${file}, fullPath: ./${fullPath}`);
+         cy.request("POST", "/test/import", {
+            file: `imports/${loc}/test_setup/defs/${file}`,
+         });
+      });
+   });
 });
