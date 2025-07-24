@@ -61,5 +61,5 @@ lib-cov
 *.pid
 
 test/setup/reset-user.sql
-ab_system_monitor.js
+*_system_monitor.js
 .env
