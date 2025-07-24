@@ -10,12 +10,10 @@ export default defineConfig({
       setupNodeEvents(on, config) {
          on("task", {
             listJsonDefs(dir) {
-               //  const fullPath = path.resolve(process.cwd(), dir);
                const fullPath = path.resolve(dir);
                return fs
                   .readdirSync(fullPath)
                   .filter((f) => f.endsWith(".json"));
-               // .map((f) => path.join(fullPath, f));
             },
          });
       },

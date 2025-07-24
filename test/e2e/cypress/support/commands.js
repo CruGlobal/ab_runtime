@@ -182,36 +182,11 @@ Cypress.Commands.add("VersionCheck", () => {
    cy.request("GET", "/versioncheck", { tenant: Cypress.env("TENANT") });
 });
 
-// Cypress.Commands.add("ImportAllDefs", (defsDir = "test_setup/defs") => {
-//    cy.AuthLogin(cy);
-
-//    cy.log(`Importing defs from: ${defsDir}`);
-//    cy.task("listJsonDefs", defsDir).then((files) => {
-//       cy.log(`Importing ${files.length} defs from ${defsDir}`);
-//       cy.log(`Importing ${files.length} defs from ${defsDir}`);
-//       files.forEach((file) => {
-//          cy.log(`Importing: ${file}`);
-//          cy.request("POST", "/test/import", {
-//             file,
-//          });
-//          // cy.wait(1000); // wait a second between imports
-//       });
-//    });
-// });
-Cypress.Commands.add("ImportAllDefs", (folder, loc, fail = true) => {
-   const defsDir = `${folder}/test_setup/defs`;
-
-   cy.AuthLogin(cy);
-
-   cy.log(`Importing defs from: ${defsDir}`);
+Cypress.Commands.add("ImportAllDefs", (folder, fail = true) => {
    cy.task("listJsonDefs", defsDir).then((files) => {
-      cy.log(`Found ${files.length} defs in ${defsDir}`);
-
       files.forEach((file) => {
-         let fullPath = path.join(defsDir, file);
-         cy.log(`Importing: ${file}, fullPath: ./${fullPath}`);
          cy.request("POST", "/test/import", {
-            file: `imports/${loc}/test_setup/defs/${file}`,
+            file: `imports/${folder}/test_setup/defs/${file}`,
          });
       });
    });
