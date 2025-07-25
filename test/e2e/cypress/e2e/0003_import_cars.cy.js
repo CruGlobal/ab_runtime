@@ -13,9 +13,7 @@ describe("CARS:", () => {
       cy.AuthLogin();
       if (!isAppImported) {
          isAppImported = true;
-         cy.request("POST", "/test/import", {
-            file: "imports/test_import/app_test.json",
-         });
+         cy.ImportAllDefs('test_import');
       }
       cy.visit("/");
    });
