@@ -1,6 +1,3 @@
-const fs = require("fs");
-const path = require("path");
-
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
