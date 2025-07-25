@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import { defineConfig } from "cypress";
 
 export default defineConfig({
@@ -5,9 +7,15 @@ export default defineConfig({
    responseTimeout: 60000,
    video: false,
    e2e: {
-      // testIsolation: false,
-      setupNodeEvents(/* on, config */) {
-         // implement node event listeners here
+      setupNodeEvents(on, config) {
+         on("task", {
+            listJsonDefs(dir) {
+               const fullPath = path.resolve(dir);
+               return fs
+                  .readdirSync(fullPath)
+                  .filter((f) => f.endsWith(".json"));
+            },
+         });
       },
    },
 });

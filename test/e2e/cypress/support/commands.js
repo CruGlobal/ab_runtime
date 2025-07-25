@@ -178,3 +178,13 @@ Cypress.Commands.add("VersionCheck", () => {
    // have our Services report back their current versions.
    cy.request("GET", "/versioncheck", { tenant: Cypress.env("TENANT") });
 });
+
+Cypress.Commands.add("ImportAllDefs", (folder, fail = true) => {
+   cy.task("listJsonDefs", defsDir).then((files) => {
+      files.forEach((file) => {
+         cy.request("POST", "/test/import", {
+            file: `imports/${folder}/test_setup/defs/${file}`,
+         });
+      });
+   });
+});
