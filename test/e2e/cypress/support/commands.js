@@ -180,7 +180,7 @@ Cypress.Commands.add("VersionCheck", () => {
 });
 
 Cypress.Commands.add("ImportAllDefs", (folder, fail = true) => {
-   cy.task("listJsonDefs", defsDir).then((files) => {
+   cy.task("listJsonDefs", `cypress/e2e/${folder}`).then((files) => {
       files.forEach((file) => {
          cy.request("POST", "/test/import", {
             file: `imports/${folder}/test_setup/defs/${file}`,
