@@ -1,18 +1,18 @@
 {
    "services": {
-      "api_sails": "2.5.3",
-      "appbuilder": "1.3.30_p11012",
+      "api_sails": "2.5.7",
+      "appbuilder": "1.3.35",
       "db": "1.0.0",
-      "custom_reports": "1.0.176_p11012",
-      "definition_manager": "1.3.27_p11100",
-      "file_processor": "1.1.113_p11100",
-      "log_manager": "1.1.6",
-      "notification_email": "1.0.9",
-      "process_manager": "1.1.15_p11100",
+      "custom_reports": "1.0.181",
+      "definition_manager": "1.3.31",
+      "file_processor": "1.1.116",
+      "log_manager": "1.1.9",
+      "notification_email": "1.0.13",
+      "process_manager": "1.1.19",
       "relay": "1.1.2",
       "tenant_manager": "1.1.4",
-      "user_manager": "1.1.98_p11100",
-      "web": "1.1.26_d11005.p11410.c20709"
+      "user_manager": "1.1.102",
+      "web": "1.1.38_d11100.p11503.c20711"
    },
-   "version": "2.3.74"
+   "version": "2.3.84"
 }
