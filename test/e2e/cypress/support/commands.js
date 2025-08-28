@@ -179,12 +179,19 @@ Cypress.Commands.add("VersionCheck", () => {
    cy.request("GET", "/versioncheck", { tenant: Cypress.env("TENANT") });
 });
 
+/*
+ * folder: test dir,  ex: 'kitchen_sink'
+ * Expecting json in:
+ * `test_setup/defs`
+ */
 Cypress.Commands.add("ImportAllDefs", (folder, fail = true) => {
-   cy.task("listJsonDefs", defsDir).then((files) => {
-      files.forEach((file) => {
-         cy.request("POST", "/test/import", {
-            file: `imports/${folder}/test_setup/defs/${file}`,
+   cy.task("listJsonDefs", `cypress/e2e/${folder}/test_setup/defs`).then(
+      (files) => {
+         files.forEach((file) => {
+            cy.request("POST", "/test/import", {
+               file: `imports/${folder}/test_setup/defs/${file}`,
+            });
          });
-      });
-   });
+      },
+   );
 });
