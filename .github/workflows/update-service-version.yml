@@ -115,13 +115,14 @@ jobs:
 
       - name: Rebase & Merge
         run: |
-          git pull origin master &&
+          git fetch origin --prune &&
           git checkout master &&
+          git rebase origin/master &&
           git checkout ${{ env.BRANCH }} &&
           git rebase master &&
           git checkout master &&
-          git merge "${{ env.BRANCH }}" &&
-          git push
+          git merge --ff-only "${{ env.BRANCH }}"
+          git push origin master
 
       - name: Create release on GitHub
         uses: ncipollo/release-action@v1
