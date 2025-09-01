@@ -43,7 +43,7 @@ else
    then
       TestOverride="-c ./test/setup/ci-test.overide.yml"
    fi
-   docker stack deploy -c $File -c docker-compose.override.yml $TestOverride $STACKNAME
+   docker stack deploy -c $File -c docker-compose.override.yml $TestOverride $STACKNAME -d
 fi
 if [[ -z $Quiet ]]
 then
