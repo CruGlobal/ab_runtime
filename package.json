@@ -27,5 +27,5 @@
     "test:e2e:ab-designer": "env-cmd cypress run --config-file cypress.plugin.ab_designer.mjs --reporter dot --project ./test/e2e",
     "test:reset": "bash testReset.sh"
   },
-  "version": "2.3.79"
+  "version": "2.3.80"
 }
