@@ -69,29 +69,30 @@ describe("Reset Password", () => {
          .as("currentUser");
       // reload to get a new ABFactory in the window (authenticated)
       cy.visit("/");
-      cy.ModelFind("08826ac7-4b33-4745-a3d7-f7831ca4ff59", {}).then(
-         ({ data }) => {
-            const { token } = data[0];
-            // now that we have the token logout an simulate the link from email;
-            logOut();
-            cy.visit(`/auth/password/reset?a=${token}`);
-            const password = "newpassword";
-            cy.get('[data-cy="portal_reset_password_new"]')
+      cy.wait(1000);
+      cy.ModelFind("08826ac7-4b33-4745-a3d7-f7831ca4ff59", {
+         populate: false,
+      }).then(({ data }) => {
+         const { token } = data[0];
+         // now that we have the token logout an simulate the link from email;
+         logOut();
+         cy.visit(`/auth/password/reset?a=${token}`);
+         const password = "newpassword";
+         cy.get('[data-cy="portal_reset_password_new"]')
 
-               .should("be.visible")
-               .type(password);
-            cy.get('[data-cy="portal_reset_password_confirm"]')
-               .should("be.visible")
-               .type(password);
-            cy.get('[data-cy="portal_reset_password_submit"]')
-               .should("be.visible")
-               .click();
-            logOut();
-            // Check the new passwor works
-            Login(USER_EMAIL, password);
-            cy.get("[data-cy=portal_work_menu_sidebar]").should("be.visible");
-         },
-      );
+            .should("be.visible")
+            .type(password);
+         cy.get('[data-cy="portal_reset_password_confirm"]')
+            .should("be.visible")
+            .type(password);
+         cy.get('[data-cy="portal_reset_password_submit"]')
+            .should("be.visible")
+            .click();
+         logOut();
+         // Check the new passwor works
+         Login(USER_EMAIL, password);
+         cy.get("[data-cy=portal_work_menu_sidebar]").should("be.visible");
+      });
    });
 });
 
