@@ -7,7 +7,7 @@
       "definition_manager": "1.4.10",
       "file_processor": "1.1.140",
       "log_manager": "1.2.1",
-      "notification_email": "1.1.0",
+      "notification_email": "1.1.1",
       "process_manager": "1.2.1",
       "relay": "1.1.5",
       "tenant_manager": "1.2.1",
