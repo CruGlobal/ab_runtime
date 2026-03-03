@@ -5,7 +5,7 @@
       "db": "1.0.0",
       "custom_reports": "1.1.12",
       "definition_manager": "1.4.20",
-      "file_processor": "1.2.1_p11403",
+      "file_processor": "1.2.2",
       "log_manager": "1.2.2",
       "notification_email": "1.1.1",
       "process_manager": "1.2.12",
