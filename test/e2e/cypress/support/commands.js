@@ -26,11 +26,11 @@
 
 Cypress.Commands.add("AuthLogin", () => {
    cy.session("admin", () => {
-      cy.log(`Logging in as ${Cypress.env("USER_EMAIL")}`);
+      cy.log(`Logging in as ${cy.env("USER_EMAIL")}`);
       cy.request("POST", "/auth/login", {
-         tenant: Cypress.env("TENANT"),
-         email: Cypress.env("USER_EMAIL"),
-         password: Cypress.env("USER_PASSWORD"),
+         tenant: cy.env("TENANT"),
+         email: cy.env("USER_EMAIL"),
+         password: cy.env("USER_PASSWORD"),
       })
          .its("body")
          .as("currentUser");
@@ -115,17 +115,17 @@ Cypress.Commands.add("ModelUpdate", (idModel, idRow, data) => {
 });
 
 Cypress.Commands.add("ResetDB", () => {
-   const stack = Cypress.env("STACK");
+   const stack = cy.env("STACK");
 
    // Clear the Physical DB
    cy.exec(`npm run test:reset ${stack}`, { failOnNonZeroExit: false });
 
    // Have the running services clear their definitions.
-   cy.request("POST", "/test/reset", { tenant: Cypress.env("TENANT") });
+   cy.request("POST", "/test/reset", { tenant: cy.env("TENANT") });
 });
 
 Cypress.Commands.add("RunSQL", (folder, files, fail = true) => {
-   const stack = Cypress.env("STACK");
+   const stack = cy.env("STACK");
    if (typeof files === "string") {
       files = [files];
    }
@@ -137,8 +137,8 @@ Cypress.Commands.add("RunSQL", (folder, files, fail = true) => {
       }
       const containerId = stdout.match(regEx)[0];
 
-      const user = Cypress.env("DB_USER");
-      const password = Cypress.env("DB_PASSWORD");
+      const user = cy.env("DB_USER");
+      const password = cy.env("DB_PASSWORD");
 
       let catCmd = "cat ";
       files.forEach((file) => {
@@ -176,7 +176,7 @@ Cypress.Commands.add("TestLog", (log) => {
 
 Cypress.Commands.add("VersionCheck", () => {
    // have our Services report back their current versions.
-   cy.request("GET", "/versioncheck", { tenant: Cypress.env("TENANT") });
+   cy.request("GET", "/versioncheck", { tenant: cy.env("TENANT") });
 });
 
 /*
