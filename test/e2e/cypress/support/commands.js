@@ -26,14 +26,18 @@
 
 Cypress.Commands.add("AuthLogin", () => {
    cy.session("admin", () => {
-      cy.log(`Logging in as ${Cypress.env("USER_EMAIL")}`);
-      cy.request("POST", "/auth/login", {
-         tenant: Cypress.env("TENANT"),
-         email: Cypress.env("USER_EMAIL"),
-         password: Cypress.env("USER_PASSWORD"),
-      })
-         .its("body")
-         .as("currentUser");
+      cy.env(["USER_EMAIL", "TENANT", "USER_PASSWORD"], { log: false }).then(
+         ({ USER_EMAIL, TENANT, USER_PASSWORD }) => {
+            cy.log(`Logging in as ${USER_EMAIL}`);
+            cy.request("POST", "/auth/login", {
+               tenant: TENANT,
+               email: USER_EMAIL,
+               password: USER_PASSWORD,
+            })
+               .its("body")
+               .as("currentUser");
+         },
+      );
    });
 });
 
@@ -115,58 +119,67 @@ Cypress.Commands.add("ModelUpdate", (idModel, idRow, data) => {
 });
 
 Cypress.Commands.add("ResetDB", () => {
-   const stack = Cypress.env("STACK");
+   cy.env(["STACK", "TENANT"]).then(({ STACK, TENANT }) => {
+      // Clear the Physical DB
+      cy.exec(`npm run test:reset ${STACK}`, { failOnNonZeroExit: false });
 
-   // Clear the Physical DB
-   cy.exec(`npm run test:reset ${stack}`, { failOnNonZeroExit: false });
-
-   // Have the running services clear their definitions.
-   cy.request("POST", "/test/reset", { tenant: Cypress.env("TENANT") });
+      // Have the running services clear their definitions.
+      cy.request("POST", "/test/reset", { tenant: TENANT });
+   });
 });
 
 Cypress.Commands.add("RunSQL", (folder, files, fail = true) => {
-   const stack = Cypress.env("STACK");
    if (typeof files === "string") {
       files = [files];
    }
 
    const regEx = /^\S+/;
-   cy.exec(`docker ps | grep ${stack}_db`).then(({ stdout }) => {
-      if (!regEx.test(stdout)) {
-         throw new Error(`couldn't find process matching '${stack}_db'`);
-      }
-      const containerId = stdout.match(regEx)[0];
+   cy.env(["STACK", "DB_USER", "DB_PASSWORD"], { log: false }).then(
+      ({ STACK, DB_USER, DB_PASSWORD }) => {
+         cy.exec(`docker ps | grep ${STACK}_db`).then(({ stdout }) => {
+            if (!regEx.test(stdout)) {
+               throw new Error(`couldn't find process matching '${STACK}_db'`);
+            }
+            const containerId = stdout.match(regEx)[0];
 
-      const user = Cypress.env("DB_USER");
-      const password = Cypress.env("DB_PASSWORD");
+            const user = DB_USER;
+            const password = DB_PASSWORD;
 
-      let catCmd = "cat ";
-      files.forEach((file) => {
-         const path = `./cypress/e2e/${folder}/test_setup/sql/${file} `;
-         catCmd += path;
-      });
-      catCmd += `> ./cypress/e2e/${folder}/test_setup/sql/combineSql.sql`;
-      cy.exec(catCmd);
-      cy.exec(`docker exec ${containerId} mkdir -p /sql`);
-      cy.exec(
-         `docker cp ./cypress/e2e/${folder}/test_setup/sql/combineSql.sql ${containerId}:/sql/combineSql.sql`,
-         {
-            log: false,
-         },
-      );
+            let catCmd = "cat ";
+            files.forEach((file) => {
+               const path = `./cypress/e2e/${folder}/test_setup/sql/${file} `;
+               catCmd += path;
+            });
+            catCmd += `> ./cypress/e2e/${folder}/test_setup/sql/combineSql.sql`;
+            cy.exec(catCmd);
+            cy.exec(`docker exec ${containerId} mkdir -p /sql`);
+            cy.exec(
+               `docker cp ./cypress/e2e/${folder}/test_setup/sql/combineSql.sql ${containerId}:/sql/combineSql.sql`,
+               {
+                  log: false,
+               },
+            );
 
-      cy.exec(
-         /* eslint-disable no-useless-escape*/
-         `docker exec ${containerId} bash -c "mysql -u ${user} -p${password} \"appbuilder-admin\" < ./sql/combineSql.sql"`,
-         { failOnNonZeroExit: fail },
-      );
-      cy.exec(`docker exec ${containerId} bash -c "rm ./sql/combineSql.sql"`, {
-         log: false,
-      });
-      cy.exec(`rm ./cypress/e2e/${folder}/test_setup/sql/combineSql.sql`, {
-         log: false,
-      });
-   });
+            cy.exec(
+               /* eslint-disable no-useless-escape*/
+               `docker exec ${containerId} bash -c "mysql -u ${user} -p${password} \"appbuilder-admin\" < ./sql/combineSql.sql"`,
+               { failOnNonZeroExit: fail },
+            );
+            cy.exec(
+               `docker exec ${containerId} bash -c "rm ./sql/combineSql.sql"`,
+               {
+                  log: false,
+               },
+            );
+            cy.exec(
+               `rm ./cypress/e2e/${folder}/test_setup/sql/combineSql.sql`,
+               {
+                  log: false,
+               },
+            );
+         });
+      },
+   );
 });
 
 Cypress.Commands.add("TestLog", (log) => {
@@ -176,7 +189,9 @@ Cypress.Commands.add("TestLog", (log) => {
 
 Cypress.Commands.add("VersionCheck", () => {
    // have our Services report back their current versions.
-   cy.request("GET", "/versioncheck", { tenant: Cypress.env("TENANT") });
+   cy.env(["TENANT"]).then(({ TENANT }) => {
+      cy.request("GET", "/versioncheck", { tenant: TENANT });
+   });
 });
 
 /*
