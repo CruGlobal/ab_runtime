@@ -7,7 +7,7 @@ export default defineConfig({
    responseTimeout: 60000,
    video: false,
    e2e: {
-      setupNodeEvents(on, config) {
+      setupNodeEvents(on /* , config */) {
          on("task", {
             listJsonDefs(dir) {
                const fullPath = path.resolve(dir);
