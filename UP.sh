@@ -23,6 +23,13 @@ then
     Dev="true"
 fi
 
+# Stack/project name from .env; test mode (-t) uses CYPRESS_STACK
+STACK="${STACKNAME}"
+if [[ -n $Test ]]
+then
+  STACK="${CYPRESS_STACK}"
+fi
+
 File="docker-compose.yml"
 TestOverride=""
 if [[ -n $Dev ]]
@@ -36,14 +43,14 @@ elif [ "$PLATFORM" = "podman" ]; then
    then
      TestOverride="-f ./test/setup/ci-test.overide.yml"
    fi
-   podman compose -f $File -f docker-compose.override.yml $TestOverride -p $STACKNAME up -d
+   podman compose -f $File -f docker-compose.override.yml $TestOverride -p $STACK up -d
 else
    nohup node ab_system_monitor.js &> /dev/null &
    if [[ -n $Test ]]
    then
       TestOverride="-c ./test/setup/ci-test.overide.yml"
    fi
-   docker stack deploy -c $File -c docker-compose.override.yml $TestOverride $STACKNAME -d
+   docker stack deploy -c $File -c docker-compose.override.yml $TestOverride $STACK -d
 fi
 if [[ -z $Quiet ]]
 then
