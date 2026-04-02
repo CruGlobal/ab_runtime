@@ -24,10 +24,10 @@ then
 fi
 
 # Stack/project name from .env; test mode (-t) uses CYPRESS_STACK
-if [[ -n $Test ]]; then
-    STACK="${CYPRESS_STACK:-$STACKNAME}"
-else
-    STACK="${STACKNAME}"
+STACK="${STACKNAME}"
+if [[ -n $Test ]]
+then
+  STACK="${CYPRESS_STACK}"
 fi
 
 File="docker-compose.yml"
