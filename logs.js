@@ -8,6 +8,7 @@ require("dotenv").config();
 const async = require("async");
 const os = require("os");
 const shell = require("shelljs");
+shell.config.execPath = shell.which("node").toString();
 const { spawn } = require("child_process");
 const fs = require("fs");
 const path = require("path");
