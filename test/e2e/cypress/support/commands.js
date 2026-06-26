@@ -117,6 +117,9 @@ Cypress.Commands.add("ModelUpdate", (idModel, idRow, data) => {
 Cypress.Commands.add("ResetDB", () => {
    const stack = Cypress.env("STACK");
 
+   // Clear Cypress saved sessions since DB is being wiped
+   Cypress.session.clearAllSavedSessions();
+
    // Clear the Physical DB
    cy.exec(`npm run test:reset ${stack}`, { failOnNonZeroExit: false });
 
