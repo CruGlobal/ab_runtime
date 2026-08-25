@@ -7,7 +7,7 @@
       "definition_manager": "1.5.1_p11419.c21900",
       "file_processor": "1.2.17_p11419.c21900",
       "log_manager": "1.2.3",
-      "notification_email": "1.1.1",
+      "notification_email": "1.2.0",
       "process_manager": "1.2.26_p11419.c21900",
       "relay": "1.1.5",
       "tenant_manager": "1.2.3",
