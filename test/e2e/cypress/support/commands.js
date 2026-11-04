@@ -121,6 +121,7 @@ Cypress.Commands.add("ResetDB", () => {
    Cypress.session.clearAllSavedSessions();
 
    // Clear the Physical DB
+   cy.exec(`ls`, { failOnNonZeroExit: false });
    cy.exec(`npm run test:reset ${stack}`, { failOnNonZeroExit: false });
 
    // Have the running services clear their definitions.
@@ -134,6 +135,14 @@ Cypress.Commands.add("RunSQL", (folder, files, fail = true) => {
    }
 
    const regEx = /^\S+/;
+   cy.exec(`docker ps | grep ${stack}_db`, { failOnNonZeroExit: false }).then(
+      ({ code, stdout, stderr }) => {
+         cy.log(`docker ps | grep ${stack}_db → exit ${code}`);
+         cy.log(stdout || "(no stdout)");
+         if (stderr) cy.log(stderr);
+      },
+   );
+
    cy.exec(`docker ps | grep ${stack}_db`).then(({ stdout }) => {
       if (!regEx.test(stdout)) {
          throw new Error(`couldn't find process matching '${stack}_db'`);

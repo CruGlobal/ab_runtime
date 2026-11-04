@@ -1,0 +1,20 @@
+{
+   "mcpServers": {
+      "ab-cypress": {
+         "command": "node",
+         "args": ["test/e2e/mcp/cypress-mcp.mjs"]
+      },
+      "playwright": {
+         "command": "npx",
+         "args": [
+            "-y",
+            "@playwright/mcp@0.0.84",
+            "--isolated",
+            "--viewport-size",
+            "1440,900",
+            "--output-dir",
+            "test/e2e/.playwright-mcp"
+         ]
+      }
+   }
+}
