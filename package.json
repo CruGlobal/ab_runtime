@@ -1,18 +1,18 @@
 {
    "devDependencies": {
-      "@eslint/js": "^9.39.5",
+      "@eslint/js": "^10.0.1",
       "@modelcontextprotocol/sdk": "^1.32.2",
       "cypress": "^16.2.1",
       "env-cmd": "^10.1.0",
-      "eslint": "^4.0.0",
-      "eslint-config-prettier": "^6.15.0",
-      "eslint-plugin-cypress": "^2.15.2",
-      "eslint-plugin-prettier": "^2.7.0",
+      "eslint": "^10.1.0",
+      "eslint-config-prettier": "^10.1.8",
+      "eslint-plugin-cypress": "^6.2.1",
+      "eslint-plugin-prettier": "^5.5.5",
       "globals": "^16.0.0",
       "zod": "^4.6.7"
    },
    "dependencies": {
-      "@digiserve/ab-utils": "github:CruGlobal/ab-utils#1.10.3",
+      "@digiserve/ab-utils": "github:CruGlobal/ab-utils#1.11.1",
       "@slack/bolt": "^3.17.1",
       "async": "^3.2.4",
       "dotenv": "^16.0.3",
